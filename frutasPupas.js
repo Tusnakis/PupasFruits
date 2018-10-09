@@ -20,14 +20,6 @@ function init(){
         compCant();
     });
     
-    /*dni.addEventListener("blur",function(){
-        compDni();
-    });
-    
-    cantidad.addEventListener("blur",function(){
-        compCant();
-    });*/
-
     function selecProd(prodActual)
     {
         var clnImgProd = prodActual.cloneNode(true);
