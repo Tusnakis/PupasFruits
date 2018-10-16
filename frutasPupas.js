@@ -5,7 +5,9 @@ function init(){
     let imgProdSelec = document.getElementById("ffac");
     let dni = document.getElementById("dni");
     let cantidad = document.getElementById("cantidad");
-    let grabar = document.getElementById("grabar");
+    let ref = document.getElementById("ref");
+    let precio = document.getElementById("precio");
+    let grabarCancelar = document.getElementsByClassName("mar_t_10");
 
     for(let i = 0; i < imgProd.length; i++)
     {
@@ -14,12 +16,22 @@ function init(){
             cambiarProd(prodActual);
         });
     }
-    
-    grabar.addEventListener("click",function(){
-        compDni();
-        compCant();
-    });
-    
+
+    for(let i = 0; i < grabarCancelar.length; i++)
+    {
+        grabarCancelar[i].addEventListener("click",function(e){
+            let contBoton = e.target.textContent;
+            if(contBoton === "Grabar")
+            {
+                crearLinea();
+            }
+            else
+            {
+                vaciarCampos();
+            }
+        });
+    }
+
     function selecProd(prodActual)
     {
         var clnImgProd = prodActual.cloneNode(true);
@@ -42,7 +54,7 @@ function init(){
             selecProd(prodActual);
         }
     }
-    
+
     function compDni()
     {
         let letras = "TRWAGMYFPDXBNJZSQVHLCKE";
@@ -51,22 +63,56 @@ function init(){
         if(dni.value == "" || letras.charAt(numDni % 23) !== letraDni)
         {
             dni.style.backgroundColor = "#f97c7c";
+            return false;
         }
         else
         {
-            dni.removeAttribute("style");;
+            dni.removeAttribute("style");
+            return true;
         }
     }
-    
+
     function compCant()
     {
         if(cantidad.value == "" || !/^([0-9])*$/.test(cantidad.value))
         {
             cantidad.style.backgroundColor = "#f97c7c";
+            return false;
         }
         else
         {
-            cantidad.removeAttribute("style");; 
+            cantidad.removeAttribute("style");
+            return true;
+        }
+    }
+
+    function vaciarCampos()
+    {
+        if(imgProdSelec.hasChildNodes() === true)
+        {
+            imgProdSelec.removeChild(imgProdSelec.firstChild);
+        }
+        
+        dni.value = "";
+        dni.removeAttribute("style");
+        cantidad.value = "";
+        cantidad.removeAttribute("style");
+        ref.value = "ref";
+        precio.value = "000.00";
+        imgProdSelec.removeAttribute("style");
+    }
+    
+    function crearLinea()
+    {
+        let dniOk = compDni();
+        let cantOk = compCant();
+        if(dniOk === true && cantOk === true && !precio.value === "")
+        {
+            vaciarCampos();
+        }
+        else
+        {
+            imgProdSelec.style.backgroundColor = "#f97c7c";
         }
     }
 
