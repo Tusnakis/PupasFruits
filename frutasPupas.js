@@ -1,13 +1,18 @@
 document.addEventListener('DOMContentLoaded', init);
 function init(){
 
-    let imgProd = document.getElementsByClassName('peque');
+    let imgProd = document.getElementsByClassName("peque");
     let imgProdSelec = document.getElementById("ffac");
     let dni = document.getElementById("dni");
     let cantidad = document.getElementById("cantidad");
     let ref = document.getElementById("ref");
     let precio = document.getElementById("precio");
     let grabarCancelar = document.getElementsByClassName("mar_t_10");
+    let lineas = document.getElementById("lineas");
+    let campos = document.getElementsByTagName("th");
+    let contLineas = 1;
+    var boton = document.getElementsByClassName("boton");
+    
 
     for(let i = 0; i < imgProd.length; i++)
     {
@@ -19,16 +24,29 @@ function init(){
 
     for(let i = 0; i < grabarCancelar.length; i++)
     {
-        grabarCancelar[i].addEventListener("click",function(e){
+        grabarCancelar[i].addEventListener("click", function(e){
             let contBoton = e.target.textContent;
             if(contBoton === "Grabar")
             {
-                crearLinea();
+                let camposOk = comprobarCampos();
+                if(camposOk == true)
+                {
+                    crearLinea();
+                    boton = document.getElementsByClassName("boton");
+                    vaciarCampos();
+                }
             }
             else
             {
                 vaciarCampos();
             }
+        });
+    }
+    for(let i = 0; i < boton.length; i++)
+    {
+        boton[i].addEventListener("click", function(e){
+            let borraElegido = e.target;
+            lineas.children[2].removeChild(borraElegido.parentElement.parentElement);
         });
     }
 
@@ -92,7 +110,7 @@ function init(){
         {
             imgProdSelec.removeChild(imgProdSelec.firstChild);
         }
-        
+
         dni.value = "";
         dni.removeAttribute("style");
         cantidad.value = "";
@@ -101,19 +119,53 @@ function init(){
         precio.value = "000.00";
         imgProdSelec.removeAttribute("style");
     }
-    
-    function crearLinea()
+
+    function comprobarCampos()
     {
         let dniOk = compDni();
         let cantOk = compCant();
-        if(dniOk === true && cantOk === true && !precio.value === "")
+        if(dniOk === true && cantOk === true && precio.value != "")
         {
-            vaciarCampos();
+            return true;
         }
         else
         {
             imgProdSelec.style.backgroundColor = "#f97c7c";
+            return false;
         }
+    }
+
+    function crearLinea()
+    {
+        lineas.children[2].appendChild(document.createElement("tr"));
+        let linea = lineas.children[2].children[contLineas];
+        let aDerecha = document.createAttribute("class");
+        let aDerecha1 = document.createAttribute("class");
+        aDerecha.value = "a_derecha";
+        aDerecha1.value = "a_derecha";
+        let sTotalAderecha = document.createAttribute("class");
+        sTotalAderecha.value = "s_total_a_derecha";
+        let boton = document.createAttribute("class");
+        boton.value = "boton";
+
+        for(let i = 0;i < campos.length; i++)
+        {
+            linea.appendChild(document.createElement("td"));
+        }
+
+        linea.children[0].appendChild(document.createTextNode(dni.value));
+        linea.children[1].appendChild(document.createTextNode(ref.value));
+        linea.children[2].setAttributeNode(aDerecha);
+        linea.children[2].appendChild(document.createTextNode(precio.value));
+        linea.children[3].setAttributeNode(aDerecha1);
+        linea.children[3].appendChild(document.createTextNode(cantidad.value));
+        linea.children[4].setAttributeNode(sTotalAderecha);
+        linea.children[4].appendChild(document.createTextNode(cantidad.value*precio.value));
+        linea.children[5].appendChild(document.createElement("button"));
+        linea.children[5].children[0].setAttributeNode(boton);
+        linea.children[5].children[0].appendChild(document.createTextNode("borrar"));
+        contLineas++;
+        
     }
 
 }
