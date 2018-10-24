@@ -12,7 +12,6 @@ function init(){
     let campos = document.getElementsByTagName("th");
     let contLineas = 1;
     let botonBorrar = document.getElementsByClassName("boton");
-    
 
     for(let i = 0; i < imgProd.length; i++)
     {
@@ -41,14 +40,7 @@ function init(){
             }
         });
     }
-    for(let i = 0; i < botonBorrar.length; i++)
-    {
-        botonBorrar[i].addEventListener("click", function(e){
-            let borraElegido = e.target;
-            lineas.children[2].removeChild(borraElegido.parentElement.parentElement);
-        });
-    }
-
+    
     function selecProd(prodActual)
     {
         var clnImgProd = prodActual.cloneNode(true);
@@ -160,10 +152,20 @@ function init(){
         linea.children[3].appendChild(document.createTextNode(cantidad.value));
         linea.children[4].setAttributeNode(sTotalAderecha);
         linea.children[4].appendChild(document.createTextNode(cantidad.value*precio.value));
-        linea.children[5].appendChild(document.createElement("button"));
-        linea.children[5].children[0].setAttributeNode(boton);
-        linea.children[5].children[0].appendChild(document.createTextNode("borrar"));
+        let btn = document.createElement("button");
+        let textoBorrar = document.createTextNode("borrar");
+        btn.appendChild(textoBorrar);
+        btn.setAttributeNode(boton);
+        btn.addEventListener("click",borrarLinea);
+        linea.children[5].appendChild(btn);
         contLineas++;
+    }
+    
+    function borrarLinea(e)
+    {
+        let borraElegido = e.target;
+        lineas.children[2].removeChild(borraElegido.parentElement.parentElement);
+        contLineas--;
     }
 
 }
