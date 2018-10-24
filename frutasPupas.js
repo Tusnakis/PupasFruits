@@ -11,7 +11,6 @@ function init(){
     let lineas = document.getElementById("lineas");
     let campos = document.getElementsByTagName("th");
     let contLineas = 1;
-    let botonBorrar = document.getElementsByClassName("boton");
 
     for(let i = 0; i < imgProd.length; i++)
     {
