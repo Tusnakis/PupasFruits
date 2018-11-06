@@ -10,6 +10,8 @@ function init(){
     let grabarCancelar = document.getElementsByClassName("mar_t_10");
     let lineas = document.getElementById("lineas");
     let campos = document.getElementsByTagName("th");
+    let total = document.getElementsByClassName("total a_derecha");
+    let numTotal = 0;
     let contLineas = 1;
 
     for(let i = 0; i < imgProd.length; i++)
@@ -33,9 +35,13 @@ function init(){
                     vaciarCampos();
                 }
             }
-            else
+            else if(contBoton === "Cancelar")
             {
                 vaciarCampos();
+            }
+            else if(contBoton === "Almacenar tabla")
+            {
+                localStorage.setItem("tabla",lineas.innerHTML);
             }
         });
     }
@@ -157,6 +163,8 @@ function init(){
         btn.setAttributeNode(boton);
         btn.addEventListener("click",borrarLinea);
         linea.children[5].appendChild(btn);
+        numTotal += cantidad.value*precio.value;
+        total[0].innerText = numTotal;
         contLineas++;
     }
     
@@ -165,6 +173,8 @@ function init(){
         let borraElegido = e.target;
         lineas.children[2].removeChild(borraElegido.parentElement.parentElement);
         contLineas--;
+        numTotal -= borraElegido.parentNode.parentNode.childNodes[4].innerText;
+        total[0].innerText = numTotal;
     }
 
 }
