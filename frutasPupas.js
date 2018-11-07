@@ -43,6 +43,18 @@ function init(){
             {
                 localStorage.setItem("tabla",lineas.innerHTML);
             }
+            else
+            {
+                if(localStorage.getItem("tabla"))
+                {
+                    lineas.innerHTML = localStorage.getItem("tabla");
+                    for(let i = 1; i < lineas.children[2].children.length; i++)
+                    {
+                        numTotal += parseInt(lineas.children[2].children[i].children[4].innerHTML);
+                    }
+                    total[0].innerText = numTotal;
+                }
+            }
         });
     }
     
@@ -133,6 +145,7 @@ function init(){
 
     function crearLinea()
     {
+        contLineas = lineas.children[2].children.length;
         lineas.children[2].appendChild(document.createElement("tr"));
         let linea = lineas.children[2].children[contLineas];
         let aDerecha = document.createAttribute("class");
