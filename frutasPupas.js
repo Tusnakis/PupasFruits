@@ -86,7 +86,7 @@ function init(){
         let letras = "TRWAGMYFPDXBNJZSQVHLCKE";
         let numDni = dni.value.substr(0,dni.value.length-1);
         let letraDni = dni.value.substr(dni.value.length-1,1).toUpperCase();
-        if(dni.value == "" || letras.charAt(numDni % 23) !== letraDni)
+        if(!/^\d{8}[A-Za-z]$/.test(dni.value) || letras.charAt(numDni % 23) !== letraDni)
         {
             dni.style.backgroundColor = "#f97c7c";
             return false;
