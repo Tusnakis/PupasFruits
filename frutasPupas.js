@@ -52,6 +52,14 @@ function init(){
                     {
                         numTotal += parseInt(lineas.children[2].children[i].children[4].innerHTML);
                     }
+                    var btnBorrar = document.getElementsByClassName("boton");
+                    if(btnBorrar != null)
+                    {
+                        for(var x = 0; x < btnBorrar.length; x++)
+                        {
+                            btnBorrar[x].addEventListener("click",borrarLinea);
+                        }
+                    }
                     total[0].innerText = numTotal;
                 }
             }
